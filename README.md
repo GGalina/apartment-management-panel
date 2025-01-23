@@ -22,82 +22,85 @@ Base URL: https://<your-app-base-url>/api
 
 *** Endpoints *** 
 
-1. Create an Apartment
+1.  Create an Apartment
 
-Method: POST
-Endpoint: /create
-Description: Adds a new apartment to the database.
-Request Body (JSON):
+ - Method: POST
+ - Endpoint: /create
+ - Description: Adds a new apartment to the database.
+ - Request Body (JSON):
 
+```shell
 {
   "title": "Apartment Center",
   "description": "Clean and tidy apartment in the center of the city",
   "price": 20000,
   "rooms": 3
 }
+```
 
-Response:
+ * Response:
 
-201: Apartment created successfully.
-400: Validation errors.
+- 201: Apartment created successfully.
+- 400: Validation errors.
 
 2. Get All Apartments
 
-Method: GET
-Endpoint: /
-Description: Fetches all apartments from the database.
-Response:
+- Method: GET
+- Endpoint: /
+- Description: Fetches all apartments from the database.
 
-200: Returns an array of apartments.
+* Response:
+
+- 200: Returns an array of apartments.
 
 3. Filter by Price
 
-Method: GET
-Endpoint: /filter/price
-Query Parameters:
+- Method: GET
+- Endpoint: /filter/price
+- Query Parameters:
 
 price: The maximum price (e.g., /filter/price?price=15000).
 
-Response:
+* Response:
 
-200: Apartments filtered by price.
-400: Validation errors for invalid input.
+- 200: Apartments filtered by price.
+- 400: Validation errors for invalid input.
 
 4. Filter by Number of Rooms
 
-Method: GET
-Endpoint: /filter/rooms
-Query Parameters:
+- Method: GET
+- Endpoint: /filter/rooms
+- Query Parameters:
 
 rooms: Number of rooms (1, 2, or 3). Example: /filter/rooms?rooms=2.
 
-Response:
+* Response:
 
-200: Apartments filtered by number of rooms.
-400: Validation errors for invalid input.
+- 200: Apartments filtered by number of rooms.
+- 400: Validation errors for invalid input.
 
 5. Delete an Apartment by ID
 
-Method: DELETE
-Endpoint: /delete/:apartmentId
-Description: Deletes an apartment by its ID.
+- Method: DELETE
+- Endpoint: /delete/:apartmentId
+- Description: Deletes an apartment by its ID.
 
-Response:
+* Response:
 
-200: Apartment deleted successfully.
-400: Invalid ID format.
-404: Apartment not found.
+- 200: Apartment deleted successfully.
+- 400: Invalid ID format.
+- 404: Apartment not found.
 
 6. Update an Apartment by ID
 
-Method: PUT
-Endpoint: /update/:apartmentId
-Description: Updates information of an apartment by its ID.
+- Method: PUT
+- Endpoint: /update/:apartmentId
+- Description: Updates information of an apartment by its ID.
 
-Response:
+* Response:
 
-200: Apartment information shown new data.
-404: Apartment not found.
+- 200: Apartment information shown new data.
+- 404: Apartment not found.
 
 ### Installation
 
