@@ -18,16 +18,14 @@ app.use(express.urlencoded({ extended: false }));  // Middleware for parsing URL
 // Routes
 app.use('/api', apartmentRoutes); 
 
-// 404 Not Found Handler
+// Error Handling Middleware
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
 });
 
-// Error Handling Middleware
 app.use((err, req, res, next) => {
   const { status = 500, message = 'Server Error' } = err;
   res.status(status).json({ message });
 });
 
-// Export the app
 module.exports = app;

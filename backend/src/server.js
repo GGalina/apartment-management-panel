@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-
 const app = require('./app')
 
 const { DB_URI, PORT = 8000 } = process.env
@@ -14,4 +13,4 @@ mongoose
     .catch((error) => {
         console.log(error.message)
         process.exit(1)
-    })
+    });

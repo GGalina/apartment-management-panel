@@ -1,10 +1,9 @@
-const { Apartment } = require('../models/Apartment');
+const mongoose = require('mongoose');
 const ctrlWrapper = require('../helpers/ctrlWrapper');
 const { HttpError } = require('../helpers/HttpError');
-const mongoose = require('mongoose');
+const { Apartment } = require('../models/Apartment');
 
-
-// Create an apartment
+//------------------------------Create an apartment-----------------------------------//
 const createApartment = async (req, res) => {
   try {
     const { title, description, price, rooms, photos } = req.body;
@@ -25,9 +24,8 @@ const createApartment = async (req, res) => {
   }
 };
 
-
-// Edit an apartment by ID
-const editApartmentById = async (req, res) => {
+//------------------------------Update an apartment by ID-----------------------------------//
+const updateApartmentById = async (req, res) => {
   const { apartmentId } = req.params;
 
   try {
@@ -45,7 +43,7 @@ const editApartmentById = async (req, res) => {
   }
 };
 
-// Delete an apartment by ID
+//------------------------------Delete an apartment by ID-----------------------------------//
 const deleteApartmentById = async (req, res, next) => {
   try {
     const { apartmentId } = req.params;
@@ -62,17 +60,17 @@ const deleteApartmentById = async (req, res, next) => {
     }
 
     res.status(200).json({ message: 'Apartment deleted successfully', apartmentId });
+
   } catch (error) {
     next(error); 
   }
 };
 
-// Get all apartments 
+//------------------------------Fetch all apartments-----------------------------------//
 const getAllApartments = async (req, res, next) => {
   try {
     const apartments = await Apartment.find();
 
-    // If no apartments are found, return a 404
     if (apartments.length === 0) {
       return res.status(404).json({ message: 'No apartments found' });
     }
@@ -84,35 +82,56 @@ const getAllApartments = async (req, res, next) => {
   }
 };
 
-// Filter by price (less than or equal to a given price)
-const filterByPrice = async (req, res) => {
+//------------------------------Filter by price (less than or equal to)-----------------------------------//
+const filterByPrice = async (req, res, next) => {
   const { price } = req.query;
 
+  // Validate the query parameter
+  if (!price || isNaN(price)) {
+    return res.status(400).json({ message: 'Invalid or missing price parameter' });
+  }
+
   try {
-    const apartments = await Apartment.find({ price: { $lte: price } });
-    res.json(apartments);
+    const apartments = await Apartment.find({ price: { $lte: Number(price) } });
+
+    if (apartments.length === 0) {
+      return res.status(404).json({ message: 'No apartments found within the specified price range' });
+    }
+
+    res.status(200).json(apartments);
 
   } catch (err) {
-    throw new HttpError(500); // Internal Server Error
+    next(err);
   }
 };
 
-// Filter by number of rooms
-const filterByRooms = async (req, res) => {
+//------------------------------Filter by number of rooms-----------------------------------//
+const filterByRooms = async (req, res, next) => {
   const { rooms } = req.query;
 
   try {
-    const apartments = await Apartment.find({ rooms });
-    res.json(apartments);
-    
+    // Ensure the number of rooms is valid
+    const validRooms = [1, 2, 3];
+    const roomsNumber = parseInt(rooms, 10);
+
+    if (!validRooms.includes(roomsNumber)) {
+      return res.status(400).json({
+        message: `Invalid number of rooms. It must be one of the following: ${validRooms.join(', ')}`,
+      });
+    }
+
+    const apartments = await Apartment.find({ rooms: roomsNumber });
+
+    res.status(200).json(apartments);
+
   } catch (err) {
-    throw new HttpError(500); // Internal Server Error
+    next(err);
   }
 };
 
 module.exports = {
   createApartment: ctrlWrapper(createApartment),
-  editApartmentById: ctrlWrapper(editApartmentById),
+  updateApartmentById: ctrlWrapper(updateApartmentById),
   deleteApartmentById: ctrlWrapper(deleteApartmentById),
   getAllApartments: ctrlWrapper(getAllApartments),
   filterByPrice: ctrlWrapper(filterByPrice),

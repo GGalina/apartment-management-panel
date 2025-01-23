@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
-const handleMongooseError = require('../helpers/handleMongooseError');
 const Joi = require('joi').extend(require('@joi/date'));
+const handleMongooseError = require('../helpers/handleMongooseError');
 
 const ApartmentSchema = new Schema({
     title: { type: String, required: true },
@@ -11,7 +11,7 @@ const ApartmentSchema = new Schema({
   }, {
     versionKey: false,  
     timestamps: true,   
-  });
+});
 
 ApartmentSchema.post('save', handleMongooseError);
 

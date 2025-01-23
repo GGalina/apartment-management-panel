@@ -5,7 +5,7 @@ const validate = (schema, property = 'body') => {
     const { error } = schema.validate(req[property], { abortEarly: false });
 
     if (error) {
-      // Map Joi's default error messages to custom ones
+      // Mapping of Joi's default error messages to custom messages
       const errorMessages = error.details.map((detail) => {
         switch (detail.context.key) {
           case 'title':
