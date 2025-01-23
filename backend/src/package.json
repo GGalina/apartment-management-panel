@@ -11,13 +11,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@joi/date": "^2.1.1",
     "@reduxjs/toolkit": "^2.5.0",
     "axios": "^1.7.9",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "joi": "^17.13.3",
     "mongoose": "^8.9.5",
-    "react-redux": "^9.2.0"
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.9"

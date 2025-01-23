@@ -2,9 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const rateLimit = require('express-rate-limit');
-const connectDB = require('./config/db');  // Assuming you have a DB connection setup
-const apartmentRoutes = require('./routes/apartmentRoutes');  // Update with your actual route file
+const apartmentRoutes = require('./routes/apartmentRoutes');
 
 dotenv.config();
 
@@ -17,16 +15,8 @@ app.use(cors());  // Enable CORS for all routes
 app.use(express.json());  // Middleware for parsing JSON data
 app.use(express.urlencoded({ extended: false }));  // Middleware for parsing URL-encoded data
 
-// Apply rate-limiting globally (to all routes)
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per window
-  message: 'Too many requests from this IP, please try again later.',
-});
-app.use(limiter);
-
 // Routes
-app.use('/api', apartmentRoutes);  // All apartment-related routes are prefixed with '/api'
+app.use('/api', apartmentRoutes); 
 
 // 404 Not Found Handler
 app.use((req, res) => {
@@ -35,7 +25,6 @@ app.use((req, res) => {
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-  
   const { status = 500, message = 'Server Error' } = err;
   res.status(status).json({ message });
 });

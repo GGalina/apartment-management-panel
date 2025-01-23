@@ -5,7 +5,6 @@ const handleMongooseError = (error, data, next) => {
     } else {
       error.status = 400;  
     }
-
     next(error);
   };
   

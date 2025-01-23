@@ -1,26 +1,30 @@
 const { Apartment } = require('../models/Apartment');
 const ctrlWrapper = require('../helpers/ctrlWrapper');
 const { HttpError } = require('../helpers/HttpError');
+const mongoose = require('mongoose');
+
 
 // Create an apartment
 const createApartment = async (req, res) => {
-  const { title, description, price, rooms, photos } = req.body;
-
   try {
-    const newApartment = await Apartment.create({
-    title,
-    description,
-    price,
-    rooms,
-    photos,
-  });
+    const { title, description, price, rooms, photos } = req.body;
+    
+    const newApartment = new Apartment({
+      title,
+      description,
+      price,
+      rooms,
+      photos: photos || [],
+    });
 
-  res.status(201).json(newApartment);
+    const savedApartment = await newApartment.save();
 
-  } catch (err) {
-    throw new HttpError(500); // Internal Server Error
+    res.status(201).json(savedApartment); 
+  } catch (error) {
+    res.status(500).json({ message: "Error creating apartment", error: error.message });
   }
 };
+
 
 // Edit an apartment by ID
 const editApartmentById = async (req, res) => {
@@ -42,43 +46,41 @@ const editApartmentById = async (req, res) => {
 };
 
 // Delete an apartment by ID
-const deleteApartmentById = async (req, res) => {
-  const { apartmentId } = req.params;
-
+const deleteApartmentById = async (req, res, next) => {
   try {
-    const apartment = await Apartment.deleteOne({ _id: apartmentId });
+    const { apartmentId } = req.params;
 
-    if (apartment.deletedCount === 0) {
-      throw new HttpError(404); // Not Found
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(apartmentId)) {
+      return res.status(400).json({ message: 'Invalid apartment ID' });
     }
 
-    res.json({ message: 'Apartment deleted' });
-  } catch (err) {
-    throw new HttpError(500); // Internal Server Error
+    const result = await Apartment.findByIdAndDelete(apartmentId);
+
+    if (!result) {
+      return res.status(404).json({ message: 'Apartment not found' });
+    }
+
+    res.status(200).json({ message: 'Apartment deleted successfully', apartmentId });
+  } catch (error) {
+    next(error); 
   }
 };
 
-// Get all apartments with optional filters
-const getAllApartments = async (req, res) => {
-  const { price, rooms } = req.query;  // Filters passed as query parameters
-
-  let filterCriteria = {};
-
-  if (price) {
-    // Apply price filter (less than or equal to the price)
-    filterCriteria.price = { $lte: price };
-  }
-
-  if (rooms) {
-    // Apply rooms filter
-    filterCriteria.rooms = rooms;
-  }
-
+// Get all apartments 
+const getAllApartments = async (req, res, next) => {
   try {
-    const apartments = await Apartment.find(filterCriteria); 
-    res.json(apartments);
-  } catch (err) {
-    throw new HttpError(500); // Internal Server Error
+    const apartments = await Apartment.find();
+
+    // If no apartments are found, return a 404
+    if (apartments.length === 0) {
+      return res.status(404).json({ message: 'No apartments found' });
+    }
+
+    res.status(200).json(apartments);
+
+  } catch (error) {
+    next(error); 
   }
 };
 
@@ -89,6 +91,7 @@ const filterByPrice = async (req, res) => {
   try {
     const apartments = await Apartment.find({ price: { $lte: price } });
     res.json(apartments);
+
   } catch (err) {
     throw new HttpError(500); // Internal Server Error
   }
@@ -101,6 +104,7 @@ const filterByRooms = async (req, res) => {
   try {
     const apartments = await Apartment.find({ rooms });
     res.json(apartments);
+    
   } catch (err) {
     throw new HttpError(500); // Internal Server Error
   }
