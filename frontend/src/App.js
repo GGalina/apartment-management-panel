@@ -1,25 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ApartmentList from "./components/ApartmentList/ApartmentList";
+import ApartmentForm from "./components/ApartmentForm/ApartmentForm";
+import Header from "./components/Header/Header";
+import Modal from "./components/Modal/Modal";
+import "./App.module.css"; 
 
-function App() {
+const App = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingApartment, setEditingApartment] = useState(null);
+
+  const openModal = (apartment = null) => {
+    setEditingApartment(apartment);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setEditingApartment(null);
+    setIsModalOpen(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <Header/>
+      <ApartmentList onEdit={openModal} />
+      {isModalOpen && (
+        <Modal onClose={closeModal}>
+          <ApartmentForm
+            apartment={editingApartment}
+            onClose={closeModal}
+          />
+        </Modal>
+      )}
     </div>
   );
-}
+};
 
 export default App;
