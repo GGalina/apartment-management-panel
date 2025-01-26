@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ctrlWrapper = require('../helpers/ctrlWrapper');
-const { HttpError } = require('../helpers/HttpError');
+const HttpError = require('../helpers/HttpError');
 const { Apartment } = require('../models/Apartment');
 
 //------------------------------Create an apartment-----------------------------------//
@@ -22,7 +22,7 @@ const createApartment = async (req, res) => {
 
   } catch (err) {
     console.error(err);
-    throw new HttpError(500, "Error creating apartment");
+    throw HttpError(500, "Error creating apartment");
   }
 };
 
@@ -34,14 +34,14 @@ const updateApartmentById = async (req, res) => {
     // Fetch the apartment to get current photos
     const apartment = await Apartment.findById(apartmentId);
     if (!apartment) {
-      throw new HttpError(404, "Apartment not found");
+      throw HttpError(404, "Apartment not found");
     }
 
     // Update apartment with provided data
     const updateApartment = await Apartment.updateOne({ _id: apartmentId }, req.body);
 
     if (updateApartment.modifiedCount === 0) {
-      throw new HttpError(404, "Apartment not found or no changes made");
+      throw HttpError(404, "Apartment not found or no changes made");
     }
 
     // If new photos are uploaded, process them
@@ -60,7 +60,7 @@ const updateApartmentById = async (req, res) => {
 
   } catch (err) {
     console.error("Error updating apartment:", err);
-    throw new HttpError(500, "Internal Server Error");
+    throw HttpError(500, "Internal Server Error");
   }
 };
 
@@ -71,21 +71,24 @@ const deleteApartmentById = async (req, res, next) => {
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(apartmentId)) {
-      throw new HttpError(400, "Invalid apartment ID");
+      return next(HttpError(400, "Invalid apartment ID"));
     }
 
     const result = await Apartment.findByIdAndDelete(apartmentId);
 
-    if (!result) {
+    if (!result ) {
+      console.log("inside", result)
       return next(HttpError(404, "Apartment not found"));
     }
 
     res.status(200).json({ message: 'Apartment deleted successfully', apartmentId });
 
   } catch (error) {
+    console.error("Error caught in deleteApartmentById:", error);
     next(error); 
   }
 };
+
 
 //------------------------------Fetch all apartments-----------------------------------//
 const getAllApartments = async (req, res, next) => {
@@ -108,14 +111,14 @@ const filterByPrice = async (req, res, next) => {
   const { price } = req.query;
 
   if (!price || isNaN(price)) {
-    return next(new HttpError(400, "Invalid or missing price parameter"));
+    return next(HttpError(400, "Invalid or missing price parameter"));
   }
 
   try {
     const apartments = await Apartment.find({ price: { $lte: Number(price) } });
 
     if (apartments.length === 0) {
-      return next(new HttpError(404, "No apartments found within the specified price range"));
+      return next(HttpError(404, "No apartments found within the specified price range"));
     }
 
     res.status(200).json(apartments);
@@ -134,7 +137,7 @@ const filterByRooms = async (req, res, next) => {
     const roomsNumber = parseInt(rooms, 10);
 
     if (!validRooms.includes(roomsNumber)) {
-      return next(new HttpError(400, `Invalid number of rooms. It must be one of the following: ${validRooms.join(', ')}`));
+      return next(HttpError(400, `Invalid number of rooms. It must be one of the following: ${validRooms.join(', ')}`));
     }
 
     const apartments = await Apartment.find({ rooms: roomsNumber });
