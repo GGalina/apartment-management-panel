@@ -27,21 +27,26 @@ const createApartment = async (req, res) => {
 };
 
 //------------------------------Update an apartment by ID-----------------------------------//
-const updateApartmentById = async (req, res) => {
+const updateApartmentById = async (req, res, next) => {
   const { apartmentId } = req.params;
 
   try {
+    // Validate ObjectId
+    if (!mongoose.Types.ObjectId.isValid(apartmentId)) {
+      return next(HttpError(400, "Invalid apartment ID"));
+    }
+
     // Fetch the apartment to get current photos
     const apartment = await Apartment.findById(apartmentId);
     if (!apartment) {
-      throw HttpError(404, "Apartment not found");
+      return next(HttpError(404, `Apartment with ID ${apartmentId} not found`));
     }
 
     // Update apartment with provided data
     const updateApartment = await Apartment.updateOne({ _id: apartmentId }, req.body);
 
     if (updateApartment.modifiedCount === 0) {
-      throw HttpError(404, "Apartment not found or no changes made");
+      return next(HttpError(404, "Apartment not found or no changes made"));
     }
 
     // If new photos are uploaded, process them
@@ -59,8 +64,7 @@ const updateApartmentById = async (req, res) => {
     res.json(updatedApartment);
 
   } catch (err) {
-    console.error("Error updating apartment:", err);
-    throw HttpError(500, "Internal Server Error");
+    return next(HttpError(500, "Internal Server Error")); 
   }
 };
 
