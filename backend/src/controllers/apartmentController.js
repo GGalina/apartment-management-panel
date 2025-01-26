@@ -6,20 +6,22 @@ const { Apartment } = require('../models/Apartment');
 //------------------------------Create an apartment-----------------------------------//
 const createApartment = async (req, res) => {
   try {
-    const { title, description, price, rooms, photos } = req.body;
-    
+
+    const { title, description, price, rooms } = req.body;
+    const photos = res.locals.photoUrls || [];
+
     const newApartment = new Apartment({
       title,
       description,
       price,
       rooms,
-      photos: photos || [],
+      photos,
     });
 
     const savedApartment = await newApartment.save();
-
-    res.status(201).json(savedApartment); 
-  } catch (error) {
+    res.status(201).json(savedApartment);
+  } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Error creating apartment", error: error.message });
   }
 };
@@ -35,8 +37,23 @@ const updateApartmentById = async (req, res) => {
       throw new HttpError(404); // Not Found
     }
 
-    const apartment = await Apartment.findById(apartmentId);
-    res.json(apartment);
+    if (req.files && req.files.length > 0) {
+      const newPhotos = req.files.map((file) => file.path);
+
+      // Combine existing and new photos, ensuring the total doesn't exceed 5
+      req.body.photos = [...apartment.photos, ...newPhotos].slice(0, 5);
+    } else {
+      // If no new photos are uploaded, keep the existing ones
+      req.body.photos = apartment.photos;
+    }
+
+    const updatedApartment = await Apartment.findByIdAndUpdate(
+      apartmentId,
+      req.body,
+      { new: true } 
+    );
+
+    res.json(updatedApartment);
 
   } catch (err) {
     throw new HttpError(500); // Internal Server Error

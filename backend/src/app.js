@@ -13,7 +13,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));  // HTTP request logger
 app.use(cors());  // Enable CORS for all routes
 app.use(express.json());  // Middleware for parsing JSON data
-app.use(express.urlencoded({ extended: false }));  // Middleware for parsing URL-encoded data
+app.use(express.urlencoded({ extended: true }));  // Middleware for parsing URL-encoded data
 
 // Routes
 app.use('/api', apartmentRoutes); 
