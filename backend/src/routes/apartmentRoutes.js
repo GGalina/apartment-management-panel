@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const validate = require('../middlewares/validate');
-const {uploadToCloudinary} = require('../middlewares/cloudinary')
+const { uploadToCloudinary } = require('../middlewares/cloudinary')
 const { apartmentAddSchema, 
     apartmentUpdateSchema } = require('../models/Apartment');
 const { createApartment, 
@@ -11,12 +11,11 @@ const { createApartment,
     filterByPrice,
     filterByRooms } = require('../controllers/apartmentController');
 
-
 // Route for creating an apartment
 router.post('/create', uploadToCloudinary, validate(apartmentAddSchema), createApartment);
   
 // Route for updating an apartment
-router.put('/update/:apartmentId', validate(apartmentUpdateSchema), updateApartmentById);
+router.put('/update/:apartmentId', uploadToCloudinary, validate(apartmentUpdateSchema), updateApartmentById);
 
 // Route for deleting an apartment
 router.delete('/delete/:apartmentId', deleteApartmentById);

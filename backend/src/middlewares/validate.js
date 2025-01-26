@@ -3,8 +3,7 @@ const Joi = require('joi');
 const validate = (schema, property = 'body') => {
   return (req, res, next) => {
     const { error } = schema.validate(req[property], { abortEarly: false });
-    console.log('Request Body:', req.body); // Logs form data
-    console.log('Uploaded Files:', req.files); // Logs uploaded files
+
     if (error) {
       // Mapping of Joi's default error messages to custom messages
       const errorMessages = error.details.map((detail) => {

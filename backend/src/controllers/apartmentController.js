@@ -6,7 +6,6 @@ const { Apartment } = require('../models/Apartment');
 //------------------------------Create an apartment-----------------------------------//
 const createApartment = async (req, res) => {
   try {
-
     const { title, description, price, rooms } = req.body;
     const photos = res.locals.photoUrls || [];
 
@@ -20,9 +19,10 @@ const createApartment = async (req, res) => {
 
     const savedApartment = await newApartment.save();
     res.status(201).json(savedApartment);
+
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Error creating apartment", error: error.message });
+    throw new HttpError(500, "Error creating apartment");
   }
 };
 
@@ -31,32 +31,36 @@ const updateApartmentById = async (req, res) => {
   const { apartmentId } = req.params;
 
   try {
+    // Fetch the apartment to get current photos
+    const apartment = await Apartment.findById(apartmentId);
+    if (!apartment) {
+      throw new HttpError(404, "Apartment not found");
+    }
+
+    // Update apartment with provided data
     const updateApartment = await Apartment.updateOne({ _id: apartmentId }, req.body);
 
     if (updateApartment.modifiedCount === 0) {
-      throw new HttpError(404); // Not Found
+      throw new HttpError(404, "Apartment not found or no changes made");
     }
 
+    // If new photos are uploaded, process them
     if (req.files && req.files.length > 0) {
       const newPhotos = req.files.map((file) => file.path);
-
-      // Combine existing and new photos, ensuring the total doesn't exceed 5
       req.body.photos = [...apartment.photos, ...newPhotos].slice(0, 5);
     } else {
-      // If no new photos are uploaded, keep the existing ones
+      // If no new photos, keep existing ones
       req.body.photos = apartment.photos;
     }
 
-    const updatedApartment = await Apartment.findByIdAndUpdate(
-      apartmentId,
-      req.body,
-      { new: true } 
-    );
+    // Update the apartment with the new photos
+    const updatedApartment = await Apartment.findByIdAndUpdate(apartmentId, req.body, { new: true });
 
     res.json(updatedApartment);
 
   } catch (err) {
-    throw new HttpError(500); // Internal Server Error
+    console.error("Error updating apartment:", err);
+    throw new HttpError(500, "Internal Server Error");
   }
 };
 
@@ -67,13 +71,13 @@ const deleteApartmentById = async (req, res, next) => {
 
     // Validate ObjectId
     if (!mongoose.Types.ObjectId.isValid(apartmentId)) {
-      return res.status(400).json({ message: 'Invalid apartment ID' });
+      throw new HttpError(400, "Invalid apartment ID");
     }
 
     const result = await Apartment.findByIdAndDelete(apartmentId);
 
     if (!result) {
-      return res.status(404).json({ message: 'Apartment not found' });
+      throw new HttpError(404, "Apartment not found");
     }
 
     res.status(200).json({ message: 'Apartment deleted successfully', apartmentId });
@@ -89,13 +93,13 @@ const getAllApartments = async (req, res, next) => {
     const apartments = await Apartment.find();
 
     if (apartments.length === 0) {
-      return res.status(404).json({ message: 'No apartments found' });
+      res.status(200).json([]); 
+    } else {
+      res.status(200).json(apartments);
     }
 
-    res.status(200).json(apartments);
-
   } catch (error) {
-    next(error); 
+    next(error);
   }
 };
 
@@ -103,16 +107,15 @@ const getAllApartments = async (req, res, next) => {
 const filterByPrice = async (req, res, next) => {
   const { price } = req.query;
 
-  // Validate the query parameter
   if (!price || isNaN(price)) {
-    return res.status(400).json({ message: 'Invalid or missing price parameter' });
+    return next(new HttpError(400, "Invalid or missing price parameter"));
   }
 
   try {
     const apartments = await Apartment.find({ price: { $lte: Number(price) } });
 
     if (apartments.length === 0) {
-      return res.status(404).json({ message: 'No apartments found within the specified price range' });
+      return next(new HttpError(404, "No apartments found within the specified price range"));
     }
 
     res.status(200).json(apartments);
@@ -127,14 +130,11 @@ const filterByRooms = async (req, res, next) => {
   const { rooms } = req.query;
 
   try {
-    // Ensure the number of rooms is valid
     const validRooms = [1, 2, 3];
     const roomsNumber = parseInt(rooms, 10);
 
     if (!validRooms.includes(roomsNumber)) {
-      return res.status(400).json({
-        message: `Invalid number of rooms. It must be one of the following: ${validRooms.join(', ')}`,
-      });
+      return next(new HttpError(400, `Invalid number of rooms. It must be one of the following: ${validRooms.join(', ')}`));
     }
 
     const apartments = await Apartment.find({ rooms: roomsNumber });

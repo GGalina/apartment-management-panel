@@ -1,5 +1,5 @@
-const multer = require('multer');
 require('dotenv').config();
+const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const { HttpError } = require('../helpers/HttpError');
@@ -16,12 +16,11 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary,
     params: {
-        folder: 'apartments',  // Store apartment images in the "apartments" folder
-        allowed_formats: ['jpg', 'jpeg', 'png'], // Accept only image files
+        folder: 'apartments',  
+        allowed_formats: ['jpg', 'jpeg', 'png'],
     },
 });
 
-// Create multer instance for uploading multiple files (up to 5)
 const upload = multer({ storage });
 
 // Upload files to Cloudinary and return the URLs
@@ -30,18 +29,17 @@ const uploadToCloudinary = (req, res, next) => {
         if (error) {
             console.error('Multer Upload Error:', error.message);
             return next(new HttpError(400, `Failed to upload files: ${error.message}`));
-        }
+        };
 
         // If files are uploaded, store their URLs in res.locals
         if (!req.files || req.files.length === 0) {
-            console.warn('No files uploaded');
             res.locals.photoUrls = [];
         } else {
             // Extract Cloudinary URLs
-            res.locals.photoUrls = req.files.map((file) => file.path); // Cloudinary file URLs
-        }
+            res.locals.photoUrls = req.files.map((file) => file.path); 
+        };
 
-        next(); // Proceed to next middleware
+        next();
     });
 };
 

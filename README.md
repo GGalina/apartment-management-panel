@@ -16,6 +16,8 @@ Welcome to the Apartment Management Panel. This mini-project serves as a managem
 
 * Joi: Validation library to ensure incoming requests contain valid data.
 
+* Cloudinary: Cloud-based image and video management service used for uploading, storing, and serving apartment photos.
+
 ### Routes
 
 Base URL: https://<your-app-base-url>/api
@@ -30,15 +32,22 @@ Base URL: https://<your-app-base-url>/api
  - Request Body (JSON):
 
 ```shell
-{
-  "title": "Apartment Center",
-  "description": "Clean and tidy apartment in the center of the city",
-  "price": 20000,
-  "rooms": 3
-}
+    {
+        "_id": "679672d1de3da7f26496df88",
+        "title": "Cozy 2-Bedroom Apartment",
+        "description": "Spacious 2-bedroom apartment in a quiet neighborhood. Open living area with natural light, fully equipped kitchen, and ample closet space. Close to shops, restaurants, and public transport. Perfect for small families or young professionals. Pet-friendly and ready to move in!",
+        "price": 1000,
+        "rooms": 2,
+        "photos": [
+            "https://res.cloudinary.com/dug34gqr9/image/upload/v1737913040/apartments/oivxme4lr5smu9pcwgvc.jpg",
+            "https://res.cloudinary.com/dug34gqr9/image/upload/v1737913041/apartments/g411kts51vetlwwbss2h.jpg"
+        ],
+        "createdAt": "2025-01-26T17:37:21.504Z",
+        "updatedAt": "2025-01-26T17:37:21.504Z"
+    }
 ```
 
- * Response:
+ Response:
 
 - 201: Apartment created successfully.
 - 400: Validation errors.
@@ -49,7 +58,7 @@ Base URL: https://<your-app-base-url>/api
 - Endpoint: /
 - Description: Fetches all apartments from the database.
 
-* Response:
+ Response:
 
 - 200: Returns an array of apartments.
 
@@ -61,7 +70,7 @@ Base URL: https://<your-app-base-url>/api
 
 price: The maximum price (e.g., /filter/price?price=15000).
 
-* Response:
+ Response:
 
 - 200: Apartments filtered by price.
 - 400: Validation errors for invalid input.
@@ -74,7 +83,7 @@ price: The maximum price (e.g., /filter/price?price=15000).
 
 rooms: Number of rooms (1, 2, or 3). Example: /filter/rooms?rooms=2.
 
-* Response:
+ Response:
 
 - 200: Apartments filtered by number of rooms.
 - 400: Validation errors for invalid input.
@@ -85,7 +94,7 @@ rooms: Number of rooms (1, 2, or 3). Example: /filter/rooms?rooms=2.
 - Endpoint: /delete/:apartmentId
 - Description: Deletes an apartment by its ID.
 
-* Response:
+ Response:
 
 - 200: Apartment deleted successfully.
 - 400: Invalid ID format.
@@ -97,7 +106,7 @@ rooms: Number of rooms (1, 2, or 3). Example: /filter/rooms?rooms=2.
 - Endpoint: /update/:apartmentId
 - Description: Updates information of an apartment by its ID.
 
-* Response:
+ Response:
 
 - 200: Apartment information shown new data.
 - 404: Apartment not found.
