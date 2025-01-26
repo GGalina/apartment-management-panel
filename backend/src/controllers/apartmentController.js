@@ -77,7 +77,6 @@ const deleteApartmentById = async (req, res, next) => {
     const result = await Apartment.findByIdAndDelete(apartmentId);
 
     if (!result ) {
-      console.log("inside", result)
       return next(HttpError(404, "Apartment not found"));
     }
 
