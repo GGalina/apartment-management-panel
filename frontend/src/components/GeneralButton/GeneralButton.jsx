@@ -1,4 +1,3 @@
-// GeneralButton.js
 import React from 'react';
 import styles from './GeneralButton.module.css';  
 

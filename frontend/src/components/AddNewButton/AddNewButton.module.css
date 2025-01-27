@@ -1,31 +1,3 @@
-.button {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.addContainer {
   margin: 20px 0;
-};
-  
-.button > button {
-  padding: 10px 20px;
-  background-color: #CCEBF6; 
-  color: #061216; 
-  border: 1px solid #CCEBF6 ;
-  border-radius: 8px;
-  font-family: 'Roboto-Bold', sans-serif;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: background-color 0.3s ease, transform 0.2s ease;
-};
-  
-.button > button:hover {
-  background-color: #9ED4E8; 
-  transform: scale(1.05);
-};
-  
-.button > button:active {
-  background-color: #9ED4E8; 
-  transform: scale(0.95);
-};
-
-  
+}

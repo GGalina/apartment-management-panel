@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch  } from "react-redux";
 import { fetchAllListings } from "../../redux/apartmentActions"
 import { selectAllApartments, selectLoading } from "../../redux/apartmentSelectors";

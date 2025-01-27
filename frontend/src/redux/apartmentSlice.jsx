@@ -10,7 +10,6 @@ import {
 
 const initialState = {
   apartments: [],
-  filteredApartments: [],
   loading: false,
   error: null,
 };
@@ -29,7 +28,6 @@ const apartmentsSlice = createSlice({
       .addCase(fetchAllListings.fulfilled, (state, action) => {
         state.loading = false;
         state.apartments = action.payload;
-        state.filteredApartments = action.payload; // Initially, all apartments are displayed
       })
       .addCase(fetchAllListings.rejected, (state, action) => {
         state.loading = false;
@@ -44,7 +42,6 @@ const apartmentsSlice = createSlice({
       .addCase(createListing.fulfilled, (state, action) => {
         state.loading = false;
         state.apartments.push(action.payload);
-        state.filteredApartments.push(action.payload);
       })
       .addCase(createListing.rejected, (state, action) => {
         state.loading = false;
@@ -64,12 +61,6 @@ const apartmentsSlice = createSlice({
         if (index !== -1) {
           state.apartments[index] = action.payload;
         }
-        const filterIndex = state.filteredApartments.findIndex(
-          (apt) => apt._id === action.payload._id
-        );
-        if (filterIndex !== -1) {
-          state.filteredApartments[filterIndex] = action.payload;
-        }
       })
       .addCase(updateListing.rejected, (state, action) => {
         state.loading = false;
@@ -86,9 +77,6 @@ const apartmentsSlice = createSlice({
         state.apartments = state.apartments.filter(
           (apt) => apt._id !== action.payload
         );
-        state.filteredApartments = state.filteredApartments.filter(
-          (apt) => apt._id !== action.payload
-        );
       })
       .addCase(deleteListing.rejected, (state, action) => {
         state.loading = false;
@@ -97,12 +85,12 @@ const apartmentsSlice = createSlice({
       
       // Filter apartments by price
       .addCase(filterByPrice.fulfilled, (state, action) => {
-        state.filteredApartments = action.payload;
+        state.apartments = action.payload;
       })
 
       // Filter apartments by number of rooms
       .addCase(filterByRooms.fulfilled, (state, action) => {
-        state.filteredApartments = action.payload;
+        state.apartments = action.payload; 
       });
   }
 });

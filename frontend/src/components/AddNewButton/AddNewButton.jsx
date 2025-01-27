@@ -10,8 +10,8 @@ const AddNewButton = () => {
   const handleCloseModal = () => setIsModalOpen(false);
 
   return (
-    <div className={styles.button}>
-      <GeneralButton onClick={handleOpenModal} label="Add New Listing">Add New Listing</GeneralButton>
+    <div className={styles.addContainer}>
+      <GeneralButton className="addButton" onClick={handleOpenModal} label="Add New Listing">Add New Listing</GeneralButton>
       {isModalOpen && <AddNewModal isOpen={isModalOpen} onRequestClose={handleCloseModal} />}
     </div>
   );
