@@ -12,21 +12,26 @@ export const createNewListingApi = async (aptData) => {
           });
       return data;
     } catch (error) {
-      console.error('Error creating apartment:', error); // Log any errors
+      console.error('Error creating apartment:', error); 
       throw new Error(error.response ? error.response.data : error.message);
     }
   };
 
 //------------------------------Update an apartment by ID-----------------------------------//
-export const editListingApi = async ({ aptData, id }) => {
+export const editListingApi = async ({ id, aptData }) => {
     try {
-        const { data } = await axios.patch(`/api/update/${id}`, aptData);
+        const { data } = await axios.put(`/api/update/${id}`, aptData, {
+            headers: {
+                // axios set 'Content-Type' for FormData automatically
+            },
+        });
         return data;
     } catch (error) {
         console.error("Error updating apartment:", error);
         throw new Error(error.response ? error.response.data : error.message);
     }
 };
+
 
 //------------------------------Delete an apartment by ID-----------------------------------//
 export const removeListingApi = async (id) => {

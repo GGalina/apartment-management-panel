@@ -13,7 +13,6 @@ const PriceFilter = () => {
       dispatch(fetchAllListings()); 
     } else {
       dispatch(filterByPrice(selectedPrice)); 
-      console.log(selectedPrice)
     }
   };
 

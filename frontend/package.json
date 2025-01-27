@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.1",
+    "@splidejs/react-splide": "^0.7.12",
     "axios": "^1.7.9",
     "cra-template": "1.2.0",
     "normalize.css": "^8.0.1",

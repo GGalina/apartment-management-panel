@@ -29,7 +29,7 @@ export const createListing = createAsyncThunk(
 // Update an existing apartment listing
 export const updateListing = createAsyncThunk(
     'apartments/update',
-    async ({ aptData, id }) => {
+    async ( {id, aptData}) => {
         const data = await editListingApi({ aptData, id });
         return data;
     }

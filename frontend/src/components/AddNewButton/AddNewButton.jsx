@@ -12,7 +12,7 @@ const AddNewButton = () => {
   return (
     <div className={styles.addContainer}>
       <GeneralButton className="addButton" onClick={handleOpenModal} label="Add New Listing">Add New Listing</GeneralButton>
-      {isModalOpen && <AddNewModal isOpen={isModalOpen} onRequestClose={handleCloseModal} />}
+      {isModalOpen && <AddNewModal isOpen={isModalOpen} onClose={handleCloseModal} />}
     </div>
   );
 };

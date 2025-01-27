@@ -1,41 +1,21 @@
-import React from 'react';
-import Modal from 'react-modal';
-import Button from '../GeneralButton/GeneralButton'; 
+import React from "react";
+import styles from "./GeneralModal.module.css";
 
-const GeneralModal = ({ 
-  isOpen, 
-  onRequestClose, 
-  onEdit, 
-  onDelete, 
-  children 
-}) => {
+const GeneralModal = ({ isOpen, onClose, children }) => {
+  if (!isOpen) return null;
+
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      contentLabel="Modal"
-      className="modal-content"
-      overlayClassName="modal-overlay"
-    >
-      <div className="modal-header">
-        <Button onClick={onRequestClose} className="close-button">
-          &times;
-        </Button>
+    <div className={styles.modalOverlay} onClick={handleBackdropClick}>
+      <div className={styles.modalContainer}>
+        <div className={styles.modalBody}>{children}</div>
       </div>
-      <div className="modal-body">
-        {children}
-      </div>
-
-      <div className="modal-footer">
-        <Button onClick={onEdit} className="edit-button">
-          Edit Listing
-        </Button>
-        <Button onClick={onDelete} className="delete-button">
-          Delete Listing
-        </Button>
-      </div>
-    </Modal>
+    </div>
   );
 };
 

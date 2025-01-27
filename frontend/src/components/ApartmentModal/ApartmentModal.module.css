@@ -1,0 +1,95 @@
+.apartmentModalContainer {
+  padding: 20px;
+  position: relative;
+}
+  
+.title {
+  font-family: 'Roboto-Bold',sans-serif;
+  font-size: 24px;
+  margin-bottom: 10px;
+  font-weight: 500;
+  text-align: center;
+  color: #061216;
+}
+  
+.description {
+  font-family: 'Roboto-Regular', sans-serif;
+  margin: 10px 0;
+  font-size: 16px;
+  color: #061216
+}
+
+.internalContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.boldText {
+  font-family: 'Roboto-Bold', sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.info {
+  font-family: 'Roboto-regular', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  color: #555555;
+}
+  
+.photoSlider {
+  display: flex;
+  gap: 10px;
+  margin: 15px 0;
+  overflow-x: auto;
+}
+  
+.photo {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+  
+.buttonGroup {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.imageSlider {
+  margin: 1rem 0;
+  max-width: 100%;
+}
+  
+.slideImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.noImages {
+  text-align: center;
+  font-size: 1rem;
+  color: gray;
+}
+
+.closeIcon {
+  font-family: 'Roboto-Bold', sans-serif;
+  font-size: 16px;
+  color: #061216;
+}
+
+.closeContainer {
+  position: absolute;
+  border: 1px solid #166C89;
+  width: 30px;
+  height: 30px;
+  top: -15px;
+  right: -15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+}

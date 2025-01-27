@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./ApartmentCard.module.css"; 
-import defaultImage from "../../assets/img/apartment-default.jpg"
+import styles from "./ApartmentCard.module.css";
+import defaultImage from "../../assets/img/apartment-default.jpg";
 
 const ApartmentCard = ({ apartment, onCardClick }) => {
   return (
@@ -11,7 +11,7 @@ const ApartmentCard = ({ apartment, onCardClick }) => {
     >
       <div className={styles.cardImgContainer}>
         <img
-          src={apartment.photos?.[0] || defaultImage} 
+          src={apartment.photos?.[0] || defaultImage}
           alt={`${apartment.title} preview`}
           className={styles.cardImg}
         />

@@ -1,43 +1,26 @@
-/* General Modal Styles */
-.ReactModal__Overlay {
-    background-color: rgba(0, 0, 0, 0.5); /* Dim the background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    max-width: 500px;
-    width: 100%;
-    margin: 0 auto;
-    position: relative;
-    z-index: 1000;
-  }
-  
-  .modal-header {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-  }
-  
-  .close-button {
-    font-size: 2rem;
-    border: none;
-    background: none;
-    cursor: pointer;
-    color: #333;
-  }
-  
-  .modal-body {
-    margin-top: 20px;
-  }
-  
-  /* Modal Footer */
-  .modal-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContainer {
+  position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 100%;
+}
+
+.modalBody {
+  padding: 10px 0;
+}

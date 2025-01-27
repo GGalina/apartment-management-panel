@@ -61,7 +61,7 @@
 .textarea:focus,
 .fileInput:focus {
     outline: none;
-    border-color: #9ED4E8; 
+    border-color: #9ED4E8;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
@@ -77,8 +77,41 @@
 }
 
 .error {
-    color: #d9534f; 
+    color: #d9534f;
     font-size: 12px;
     margin-top: 5px;
     font-weight: bold;
+}
+
+.submitButton {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.submitButton:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+.cancelButton {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cancelButton:hover {
+    background-color: #c82333;
+}
+
+.submitButton:hover {
+    background-color: #218838;
 }

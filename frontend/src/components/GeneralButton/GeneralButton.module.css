@@ -61,3 +61,40 @@
   background-color: #14a6db; 
   transform: scale(0.95);
 }
+
+/* Update styles */
+.updateButton {
+  padding: 10px 20px;
+  background-color: #f8ef74; 
+  color: #061216; 
+  border: 1px solid #f8ef74;
+  border-radius: 8px;
+  font-family: 'Roboto-Bold', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+  
+.updateButton:hover {
+  background-color: #f8e008; 
+  transform: scale(1.05);
+}
+/* Delete styles */
+.deleteButton {
+  padding: 10px 20px;
+  background-color: #e96565; 
+  color: #061216; 
+  border: 1px solid #e96565 ;
+  border-radius: 8px;
+  font-family: 'Roboto-Bold', sans-serif;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+  
+.deleteButton:hover {
+  background-color: #ee2525; 
+  transform: scale(1.05);
+}
