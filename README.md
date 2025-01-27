@@ -18,9 +18,13 @@ Welcome to the Apartment Management Panel. This mini-project serves as a managem
 
 * Cloudinary: Cloud-based image and video management service used for uploading, storing, and serving apartment photos.
 
+* Docker: Docker is used in this project to containerize the backend application, ensuring a consistent and reproducible environment for development, testing, and deployment.
+
+* Render: Render is used to deploy and host the backend API, providing a scalable, reliable cloud infrastructure for serving the application to users.
+
 ### Routes
 
-Base URL: https://<your-app-base-url>/api
+Base URL: https://apartment-management-panel.onrender.com/api
 
 *** Endpoints *** 
 
@@ -135,6 +139,9 @@ npm install
 
 MONGO_URI=<your-mongodb-connection-string>
 PORT=8000
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
 
 5. Run the application:
 

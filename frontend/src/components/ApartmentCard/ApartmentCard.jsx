@@ -1,14 +1,29 @@
-// src/components/ApartmentCard/ApartmentCard.jsx
 import React from "react";
-import "./ApartmentCard.module.css";
+import styles from "./ApartmentCard.module.css"; 
 
-const ApartmentCard = ({ apartment, onEdit }) => {
+const ApartmentCard = ({ apartment, onCardClick }) => {
   return (
-    <div className="apartment-card">
-      <h2>{apartment.title}</h2>
-      <p>Price: ${apartment.price}</p>
-      <p>Rooms: {apartment.rooms}</p>
-      <button onClick={onEdit}>Edit</button>
+    <div
+      key={apartment._id}
+      onClick={() => onCardClick(apartment)}
+      className={styles.cardContainer}
+    >
+      <div className={styles.cardImgContainer}>
+        <img
+          src={apartment.photos?.[0] || "/assets/img/apartment-default.jpg"} 
+          alt={`${apartment.title} preview`}
+          className={styles.cardImg}
+        />
+      </div>
+      <div className={styles.cardDesc}>
+        <div className={styles.cardInfoContainer}>
+          <p className={styles.cardInfo}>{apartment.rooms} rooms</p>
+          <p className={styles.cardInfo}>{apartment.price} $</p>
+        </div>
+        <div className={styles.cardTitleContainer}>
+          <h3 className={styles.cardTitle}>{apartment.title}</h3>
+        </div>
+      </div>
     </div>
   );
 };

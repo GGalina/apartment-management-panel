@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ApartmentList from "./components/ApartmentList/ApartmentList";
 import ApartmentForm from "./components/ApartmentForm/ApartmentForm";
 import Header from "./components/Header/Header";
-import Modal from "./components/Modal/Modal";
+import Modal from "./components/GeneralModal/GeneralModal";
 import "./App.module.css"; 
 
 const App = () => {

@@ -3,4 +3,9 @@
     align-items: center;
     gap: 16px;
 }
- 
+
+.headerText {
+    font-family: 'Roboto-Bold', sans-serif;
+    font-size: 26px;
+    color: #061216;
+}

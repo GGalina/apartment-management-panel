@@ -1,21 +1,37 @@
-// src/components/ApartmentList/ApartmentList.jsx
-import React from "react";
+import React, {useEffect} from "react";
+import { useSelector, useDispatch  } from "react-redux";
+import { fetchAllListings } from "../../redux/apartmentActions"
+import { selectAllApartments, selectLoading } from "../../redux/apartmentSelectors";
+import Loader from "../Loader/Loader";
 import ApartmentCard from "../ApartmentCard/ApartmentCard";
-import "./ApartmentList.module.css";
+import styles from "./ApartmentList.module.css";
 
-const ApartmentList = ({ onEdit }) => {
-  const apartments = [
-    { id: 1, title: "Apartment 1", price: 1000, rooms: 2 },
-    { id: 2, title: "Apartment 2", price: 1200, rooms: 3 },
-  ]; // Placeholder data
+const ApartmentList = ({ onCardClick }) => {
+  const dispatch = useDispatch();
+  const apartments = useSelector(selectAllApartments);
+  const isLoading = useSelector(selectLoading);
+
+  useEffect(() => {
+    dispatch(fetchAllListings());
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+        <Loader />
+    );
+  };
+
+  if (!isLoading && apartments.length === 0) {
+    return <p className={styles.apartmentNoList}>No listings available at the moment</p>;
+  }
 
   return (
-    <div className="apartment-list">
+    <div className={styles.apartmentList}>
       {apartments.map((apartment) => (
         <ApartmentCard
-          key={apartment.id}
+          key={apartment._id}
           apartment={apartment}
-          onEdit={() => onEdit(apartment)}
+          onCardClick={onCardClick}
         />
       ))}
     </div>
