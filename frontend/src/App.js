@@ -3,7 +3,8 @@ import ApartmentList from "./components/ApartmentList/ApartmentList";
 import ApartmentForm from "./components/ApartmentForm/ApartmentForm";
 import Header from "./components/Header/Header";
 import Modal from "./components/GeneralModal/GeneralModal";
-import "./App.module.css"; 
+import AddNewButton from "./components/AddNewButton/AddNewButton";
+import styles from "./App.module.css"; 
 
 const App = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,8 +21,11 @@ const App = () => {
   };
 
   return (
-    <div className="app">
+    <div className={styles.app}>
       <Header/>
+      <div className={styles.buttonsContainer}>
+        <AddNewButton/>
+      </div>      
       <ApartmentList onEdit={openModal} />
       {isModalOpen && (
         <Modal onClose={closeModal}>
