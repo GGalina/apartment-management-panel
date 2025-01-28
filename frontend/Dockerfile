@@ -7,14 +7,23 @@ WORKDIR /app
 # Copy the package.json and package-lock.json (or yarn.lock) first to leverage Docker cache
 COPY package*.json ./
 
-# Install the dependencies
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the project files
+# Copy the rest of the project files to the container
 COPY . .
 
-# Expose the default React port
-EXPOSE 3000
+# Build the React app for production
+RUN npm run build
 
-# Step 2: Run the app using the start command
-CMD ["npm", "start"]
+# Step 2: Serve the app using Nginx
+FROM nginx:1.23.3
+
+# Copy the built React files to the Nginx static files directory
+COPY --from=build /app/build /usr/share/nginx/html
+
+# Expose the default Nginx port
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
