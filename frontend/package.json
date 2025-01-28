@@ -1,5 +1,6 @@
 {
   "name": "frontend",
+  "homepage": "https://apartment-management-panel-frontend.onrender.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
