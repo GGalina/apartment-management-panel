@@ -47,8 +47,6 @@ export const removeListingApi = async (id) => {
 export const getAllListingsApi = async () => {
     try {
         const { data } = await axios.get('/api/');
-        console.log("Fetched data from:", axios.defaults.baseURL, data);
-        console.log("Environment variables:", process.env.REACT_APP_API_BASE_URL);
         return data;
     } catch (error) {
         console.error("Error fetching apartments:", error);
