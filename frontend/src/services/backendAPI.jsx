@@ -48,6 +48,7 @@ export const getAllListingsApi = async () => {
     try {
         const { data } = await axios.get('/api/');
         console.log("Fetched data from:", axios.defaults.baseURL, data);
+        console.log("Environment variables:", process.env);
         return data;
     } catch (error) {
         console.error("Error fetching apartments:", error);
