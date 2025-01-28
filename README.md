@@ -226,3 +226,5 @@ The frontend is also Dockerized, making it easy to deploy alongside the backend.
 ### Deployment
 
 Backend: https://apartment-management-panel.onrender.com
+
+Frontend: https://apartment-management-panel-frontend.onrender.com
