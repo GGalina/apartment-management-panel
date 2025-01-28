@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://apartment-management-panel.onrender.com';
+axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
 
 //------------------------------Create a new apartment-----------------------------------//
 export const createNewListingApi = async (aptData) => {

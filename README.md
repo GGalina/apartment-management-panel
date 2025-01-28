@@ -152,3 +152,77 @@ npm start
 Use Postman or any API client to test the routes.
 
 ## Frontend 
+
+### Technologies Used
+
+* React: JavaScript library for building user interfaces, providing a component-based architecture for building SPAs.
+
+* React-Redux: State management library used to manage the global application state through Redux.
+
+* @reduxjs/toolkit: Provides a simplified and efficient way to configure and manage Redux states.
+
+* Axios: Promise-based HTTP client used to make requests to the backend API.
+
+* React-Toastify: Library used for displaying notifications in the app.
+
+* React-Splide: Carousel slider component used to display apartment images.
+
+* Normalize.css: CSS file that provides consistent styling for HTML elements across browsers.
+
+* React-Spinners: A library of loading spinners to indicate when content is being loaded.
+
+### Features
+
+* Apartment Listings: Display a list of all available apartments with a preview of their information (e.g., title, description, price, rooms).
+
+* Filtering: Filter apartments by price and number of rooms.
+
+* Apartment Details: View detailed information about a selected apartment, including photos and description.
+
+* Update Apartment: Open a modal to update an apartment's details.
+
+* Delete Apartment: Delete an apartment listing directly from the modal.
+
+
+### Installation
+
+1. Clone the repository:
+
+```shell
+git clone https://github.com/GGalina/apartment-management-panel.git
+```
+
+2. Navigate to the frontend directory:
+
+```shell
+cd apartment-management-panel/frontend
+```
+
+3. Install dependencies:
+
+```shell
+npm install
+```
+
+3. Run the application:
+```shell
+npm start
+```
+The app should now be running at http://localhost:3000.
+
+## Docker and Deployment
+
+This project uses Docker to containerize both the frontend and backend, ensuring consistency and portability across environments. Each service has its own Dockerfile for building its respective container.
+
+### Docker in the Project
+
+* Backend:
+
+The backend is containerized using Docker and has been deployed to Render, which provides a simple and scalable hosting solution for Dockerized backend services.
+
+* Frontend:
+The frontend is also Dockerized, making it easy to deploy alongside the backend. Render is used for deploying the frontend from the same repository.
+
+### Deployment
+
+Backend: https://apartment-management-panel.onrender.com
