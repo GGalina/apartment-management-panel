@@ -19,7 +19,13 @@ const ApartmentList = () => {
   useEffect(() => {
     dispatch(fetchAllListings());
   }, [dispatch]);
+//
+  console.log("Apartments data: ", apartments);
 
+  if (!Array.isArray(apartments)) {
+    return <p className={styles.apartmentNoList}>Error: Invalid data</p>;
+  }
+//
   const openApartmentModal = (apartment) => {
     setSelectedApartment(apartment);
     setModalType("apartment");

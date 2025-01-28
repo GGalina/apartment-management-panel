@@ -11,7 +11,11 @@ const app = express();
 // Middleware
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 app.use(logger(formatsLogger));  // HTTP request logger
-app.use(cors());  // Enable CORS for all routes
+app.use(cors({
+  origin: 'https://apartment-management-panel-frontend.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+}));
 app.use(express.json());  // Middleware for parsing JSON data
 app.use(express.urlencoded({ extended: true }));  // Middleware for parsing URL-encoded data
 
